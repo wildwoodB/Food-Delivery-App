@@ -15,7 +15,7 @@ class ListDishesViewController: UIViewController {
     
     var category: DishCategory!
     var dishes: [Dish] = []
-    var dishName = ""
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +24,10 @@ class ListDishesViewController: UIViewController {
         registerCell()
         ProgressHUD.show()
         
-        NetworkService.shared.fetchCategoryDishes(categoryId: dishName ?? "") { [weak self] result in
+        NetworkService.shared.fetchCategoryDishes(categoryId: category.id ?? "") { [weak self] result in
             switch result {
             case .success(let data):
-                self?.dishes.append(contentsOf: data)
+                self?.dishes = data
                 self?.tableView.reloadData()
                 ProgressHUD.showSucceed()
             case .failure(let error):

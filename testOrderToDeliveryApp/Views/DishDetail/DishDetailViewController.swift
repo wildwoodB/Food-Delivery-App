@@ -44,7 +44,7 @@ class DishDetailViewController: UIViewController {
         print(name)
         
         ProgressHUD.show("Добавляем заказ....")
-        NetworkService.shared.placeOrder(dishId: dish.id ?? "", name: name) { result in
+        NetworkService.shared.placeOrder(dishId: dish.id ?? "", name: name) { [self] result in
             switch result {
             case .success(_):
                 ProgressHUD.showSucceed("Заказ добавлен!")

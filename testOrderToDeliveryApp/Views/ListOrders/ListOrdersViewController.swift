@@ -6,29 +6,33 @@
 //
 
 import UIKit
+import ProgressHUD
 
 class ListOrdersViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var orders: [Order] = [
-        
-        .init(id: "id", name: "Борисов Никита", dish: .init(id: "id1", name: "Бурегер бу Дима", description: "Топ продаж ЧД", image: "https://picsum.photos/100/280", calories: 55)),
-        .init(id: "id", name: "Bdfy Никита", dish: .init(id: "id1", name: "Lehf", description: "Топ продаж ЧД", image: "https://picsum.photos/100/2656", calories: 55)),
-        .init(id: "id", name: "<vddv Никита", dish: .init(id: "id1", name: "Rehf", description: "Топ продаж ЧД", image: "https://picsum.photos/100/565", calories: 55)),
-        .init(id: "id", name: "Борисов Никита", dish: .init(id: "id1", name: "Даня повар", description: "Топ продаж ЧД", image: "https://picsum.photos/100/3434", calories: 55)),
-        .init(id: "id", name: "IIIDD Никита", dish: .init(id: "id1", name: "Бурегер бу Дима", description: "Топ продаж ЧД", image: "https://picsum.photos/100/5656", calories: 55)),
-        .init(id: "id", name: "Борисов Никита", dish: .init(id: "id1", name: "Бурегер бу Дима", description: "Топ продаж ЧД", image: "https://picsum.photos/100/280", calories: 55)),
-        .init(id: "id", name: "Борисов Никита", dish: .init(id: "id1", name: "Бурегер бу Дима", description: "Топ продаж ЧД", image: "https://picsum.photos/100/280", calories: 55)),
-        .init(id: "id", name: "Борисов Никита", dish: .init(id: "id1", name: "Бурегер бу Дима", description: "Топ продаж ЧД", image: "https://picsum.photos/100/280", calories: 55)),
-    
-    ]
+    var orders: [Order] = []
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Заказы"
         registerCell()
+        ProgressHUD.show()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        NetworkService.shared.fetchOrders { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.orders = data
+                self?.tableView.reloadData()
+                ProgressHUD.dismiss()
+            case .failure(let error):
+                ProgressHUD.showError(error.localizedDescription)
+            }
+        }
     }
     
     private func registerCell() {

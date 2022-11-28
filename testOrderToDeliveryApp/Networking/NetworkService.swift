@@ -26,7 +26,10 @@ struct NetworkService {
     ///  запрос блюд по категориям
     func fetchCategoryDishes(categoryId: String, completion: @escaping(Result<[Dish], Error>) -> Void ){
         request(route: .fetchCategoryDishes(categoryId), method: .get, completion: completion)
-        
+    }
+    
+    func fetchOrders(completion: @escaping(Result<[Order], Error>) -> Void){
+        request(route: .fetchOrders , method: .get, completion: completion)
     }
     
     
