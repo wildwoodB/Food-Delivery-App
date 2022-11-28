@@ -1,7 +1,7 @@
 # chickenDealerApp
 
-#  Clima
+#  Chicken Dealer
 
-## Our Goal
+## My Goal
 
-It’s time to take our app development skills to the next level. We’re going to introduce you to the wonderful world of Application Programming Interfaces (APIs) to grab live data from the internet. If you’re dreaming of making that Twitter-powered stock trading app then you’re about add some serious tools to your toolbelt!
+It's my first try to make a food-delivery app.
