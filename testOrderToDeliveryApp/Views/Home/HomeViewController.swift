@@ -90,6 +90,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if collectionView == categoryCollectionView {
             let controller =  ListDishesViewController.instantiate()
             controller.category = categories[indexPath.row]
+            controller.dishName = categories[indexPath.row].id ?? ""
             navigationController?.pushViewController(controller, animated: true)
         } else {
             let controller = DishDetailViewController.instantiate()

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 class ListDishesViewController: UIViewController {
     
@@ -13,19 +14,26 @@ class ListDishesViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var category: DishCategory!
-    
-    var dishes: [Dish] = [
-        .init(id: "id1", name: "Бурегер бу Дима", description: "Топ продаж ЧД", image: "https://picsum.photos/100/280", calories: 55),
-        .init(id: "id1", name: "БурегерБУ ЧИИИИз", description: "Топ продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧДТоп продаж ЧД", image: "https://picsum.photos/100/210", calories: 121),
-        .init(id: "id1", name: "Бургер", description: "Топ продаж ЧД", image: "https://picsum.photos/100/260", calories: 345)
-    ]
+    var dishes: [Dish] = []
+    var dishName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = category.name
         registerCell()
+        ProgressHUD.show()
         
+        NetworkService.shared.fetchCategoryDishes(categoryId: dishName ?? "") { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dishes.append(contentsOf: data)
+                self?.tableView.reloadData()
+                ProgressHUD.showSucceed()
+            case .failure(let error):
+                ProgressHUD.showError(error.localizedDescription)
+            }
+        }
     }
     // регистрации ячейки внутри тайбл вью контроллера
     private func registerCell() {

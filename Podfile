@@ -8,5 +8,6 @@ target 'testOrderToDeliveryApp' do
   # Pods for testOrderToDeliveryApp
   pod "Kingfisher"
   pod "ProgressHUD"
+  pod "IQKeyboardManagerSwift"
 
 end

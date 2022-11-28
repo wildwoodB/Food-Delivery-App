@@ -35,10 +35,22 @@ class DishDetailViewController: UIViewController {
     
     @IBAction func placeOrderBtnClicked(_ sender: UIButton) {
         
-        ProgressHUD.showAdded()
+        /// создаение перменной с именем с функцией отчистки текст филда от лишних пробелов. вышак!
+        guard let name = nameField.text?.trimmingCharacters(in: .whitespaces), !name.isEmpty else {
+            ProgressHUD.showError("Пожалуйста введи свое имя!")
+            return
+        }
         
+        print(name)
+        
+        ProgressHUD.show("Добавляем заказ....")
+        NetworkService.shared.placeOrder(dishId: dish.id ?? "", name: name) { result in
+            switch result {
+            case .success(_):
+                ProgressHUD.showSucceed("Заказ добавлен!")
+            case .failure(let error):
+                ProgressHUD.showError(error.localizedDescription)
+            }
+        }
     }
-    
-    
-    
 }

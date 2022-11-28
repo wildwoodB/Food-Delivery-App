@@ -14,18 +14,23 @@ struct NetworkService {
     
     static let shared = NetworkService()
     private init() {}
-    
+    /// зхапрос списка всех блюд из бэка
     func fetchAllCategories(complition: @escaping(Result<AllDishes,Error>) -> Void){
         request(route: .fetchAllCategories, method: .get, completion: complition)
+    }
+    ///запрос размещения заказа
+    func placeOrder(dishId: String, name: String, completion: @escaping(Result<Order, Error>) -> Void) {
+        let params = ["name" : name]
+        request(route: .placeOrder(dishId), method: .post, parameters: params, completion: completion)
+    }
+    ///  запрос блюд по категориям
+    func fetchCategoryDishes(categoryId: String, completion: @escaping(Result<[Dish], Error>) -> Void ){
+        request(route: .fetchCategoryDishes(categoryId), method: .get, completion: completion)
+        
     }
     
     
     /// - Parameters:
-    ///   - route: <#route description#>
-    ///   - method: <#method description#>
-    ///   - parameters: <#parameters description#>
-    ///   - type: <#type description#>
-    ///   - completion: <#completion description#>
     private func request<T: Decodable>(route: Route,
                                      method: Method,
                                      parameters: [String:Any]? = nil,
